@@ -1,0 +1,7 @@
+class AppConstant {
+  AppConstant._();
+
+  //Implement to using for test on local flutter only
+
+  static String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXAiOiJzdXBwbGllciIsImNpZCI6Ijg0OTQxODYwNjQ5Iiwic3RhdHVzIjoiQlVTWSIsImVvYyI6InZpbmhuZDFAYWhhbW92ZS5jb20iLCJub2MiOiJOZ3V5ZW4gVmluaCIsImN0eSI6IlNHTiIsImFwcCI6Ik9uV2hlZWwiLCJpbWVpIjoiMjk4M0U2QTEtMzE2Mi00MjQ1LUExQjYtM0ZERDI0NDZDOTdFIiwidHlwZSI6ImlvcyIsInBhcnRuZXIiOiJvbndoZWVsIiwicm9sZSI6ImFkbWluIiwiZXhwIjoxNzI3NTkyMjkwLCJpYXQiOjE3MjczMzMwOTAsImlzcyI6IkFoYU1vdmUifQ.BQQ0lBwtd4D4e6t1A29ZffgLgH9vwJhPds2NxLH9H9c";
+}

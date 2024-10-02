@@ -1,0 +1,385 @@
+{
+    "screens": [
+        {
+            "id": "ORDER-DETAILS-ID",
+            "layout": [
+                {
+                    "type": "header",
+                    "section_ids": [
+                        "navigation_section"
+                    ]
+                },
+                {
+                    "type": "body",
+                    "section_ids": [
+                        "rating_section",
+                        "cash_section",
+                        "total_cod_section",
+                        "pricing_details_section",
+                        "divider_section",
+                        "service_section",
+                        "divider_section_1",
+                        "route_header_section",
+                        "path_content_section",
+                        "next_button_section",
+                        "order_row_section",
+                        "common_header_section"
+                    ]
+                },
+                {
+                    "type": "footer",
+                    "section_ids": [
+                        "next_button_section"
+                    ]
+                }
+            ]
+        }
+    ],
+    "sections": [
+        {
+            "id": "navigation_section",
+            "data": [
+                {
+                    "_id": "order_id",
+                    "type": "text",
+                    "value": "Đơn hàng #24SPB3CE",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "body2"
+                        }
+                    ]
+                },
+                {
+                    "_id": "order_status",
+                    "type": "text",
+                    "value": "Đã hoàn thành",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "body2"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "rating_section",
+            "data": [
+                {
+                    "_id": "user_name",
+                    "type": "text",
+                    "value": "PHẠM NGUYỄN THANH NHI",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "body1"
+                        }
+                    ]
+                },
+                {
+                    "_id": "rating_by_supplier",
+                    "type": "rating",
+                    "value": "5"
+                }
+            ]
+        },
+        {
+            "id": "cash_section",
+            "data": [
+                {
+                    "_id": "",
+                    "type": "text",
+                    "value": "Cước phí đơn hàng",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "H2"
+                        }
+                    ]
+                },
+                {
+                    "_id": "supplier_subtotal_price",
+                    "type": "text",
+                    "value": "đ21,296"
+                }
+            ]
+        },
+        {
+            "id": "total_cod_section",
+            "data": [
+                {
+                    "_id": "",
+                    "type": "text",
+                    "value": "Tổng COD cần ứng",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "H2"
+                        }
+                    ]
+                },
+                {
+                    "_id": "total_supplier_cod",
+                    "type": "text",
+                    "value": "đ10,000",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "H3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "pricing_details_section",
+            "data": [
+                {
+                    "_id": "",
+                    "type": "text",
+                    "value": "Xem chi tiết giá",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "H3"
+                        }
+                    ]
+                }
+            ],
+            "action":{
+                "type": "toast",
+                "target": "Toast message when pressed pricing details section"
+            }
+        },
+        {
+            "id": "divider_section",
+            "data": [
+                {
+                    "_id": "",
+                    "type": "divider",
+                    "styles": [
+                        {
+                            "Key": "heigh",
+                            "Value": "2.0"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "service_section",
+            "data": [
+                {
+                    "_id": "",
+                    "type": "text",
+                    "value": "Dịch vụ",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "H2"
+                        }
+                    ]
+                },
+                {
+                    "_id": "service_icon_url",
+                    "type": "icon",
+                    "value": "https://ahamoveimg.s3-ap-southeast-1.amazonaws.com/aha-service/SieuToc.jpg"
+                },
+                {
+                    "_id": "service_name",
+                    "type": "text",
+                    "value": "Siêu Tốc",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "body3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "divider_section_1",
+            "data": [
+                {
+                    "_id": "",
+                    "type": "divider",
+                    "styles": [
+                        {
+                            "Key": "heigh",
+                            "Value": "2.0"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "route_header_section",
+            "data": [
+                {
+                    "_id": "",
+                    "type": "text",
+                    "value": "Lộ trình * ",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "H2"
+                        }
+                    ]
+                },
+                {
+                    "_id": "distance",
+                    "type": "text",
+                    "value": "0.61km",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "body3"
+                        }
+                    ]
+                },
+                {
+                    "_id": "",
+                    "type": "button",
+                    "value": "Xem lộ trình",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "body3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "path_content_section_0",
+            "data": [
+                {
+                    "_id": "path.address",
+                    "type": "text",
+                    "value": "7/28 Thành Thái, Phường 12, Quận 10, Hồ Chí Minh 76000, Việt Nam",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "body3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "path_content_section_1",
+            "data": [
+                {
+                    "_id": "path.status",
+                    "type": "icon",
+                    "value": "COMPLETED"
+                },
+                {
+                    "_id": "path.address",
+                    "type": "text",
+                    "value": "Trường Đại Học Bách Khoa,  Cổng,  Đường Tô Hiến Thành,  Phường 14,  Quận 10,  Hồ Chí Minh",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "body3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "next_button_section",
+            "data": [
+                {
+                    "_id": "",
+                    "type": "button",
+                    "value": "Tiếp theo",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "subHeadline"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "order_row_section",
+            "data": [
+                {
+                    "_id": "path.status",
+                    "type": "icon",
+                    "value": "COMPLETED"
+                },
+                {
+                    "_id": "path.address",
+                    "type": "title",
+                    "value": "Trường Đại Học Bách Khoa,  Cổng,  Đường Tô Hiến Thành,  Phường 14,  Quận 10,  Hồ Chí Minh",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "body3"
+                        }
+                    ]
+                },
+                {
+                    "_id": "order._id",
+                    "type": "header",
+                    "value": "Header for order ${order.id}",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "subHeadline"
+                        }
+                    ]
+                },
+                {
+                    "type": "description",
+                    "value": "Description for this row",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "subHeadline"
+                        }
+                    ]
+                }
+            ],
+            "action": {
+                "type": "toast",
+                "target": "Toast message when pressed order_row_section"
+            }
+        },
+        {
+            "id": "common_header_section",
+            "data": [
+                {
+                    "type": "title",
+                    "value": "Title for header",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "body3"
+                        }
+                    ]
+                },
+                {
+                    "_id": "order._id",
+                    "type": "description",
+                    "value": "Description for this row $_id",
+                    "styles": [
+                        {
+                            "Key": "style",
+                            "Value": "subHeadline"
+                        }
+                    ]
+                }
+            ],
+            "action": {
+                "type": "toast",
+                "target": "Toast message when pressed common_header_section"
+            }
+        }
+    ]
+}

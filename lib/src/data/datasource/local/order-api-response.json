@@ -1,0 +1,269 @@
+{
+    "_id": "24SPB3CE",
+    "accept_duration": 1,
+    "accept_lat": 10.76962170309624,
+    "accept_lng": 106.66368211793198,
+    "accept_time": 1724297903.8866494,
+    "app": "AhaMove",
+    "assigned_by": "84384530913",
+    "board_distance": 0,
+    "board_duration": 2,
+    "board_lat": 10.76962170309624,
+    "board_lng": 106.66368211793198,
+    "board_time": 1724297905,
+    "child_ids": null,
+    "city_id": "SGN",
+    "comment_by_supplier": "User is happy person - Exact-time user 😄 - User tip to me 😄",
+    "complete_distance": 0,
+    "complete_duration": 1,
+    "complete_lat": 10.769640749167962,
+    "complete_lng": 106.66369615638726,
+    "complete_time": 1724297938.9014351,
+    "create_time": 1724297889,
+    "currency": "VND",
+    "delay_until": 1724297899,
+    "discount": -1000,
+    "distance": 0.61,
+    "distance_fee": 22000,
+    "distance_tracked": 0,
+    "duration": 250,
+    "index": 858,
+    "items": [],
+    "notify_package_return": true,
+    "online_pay": 0,
+    "order_time": 1724297889,
+    "partner_distance_fee": 22000,
+    "partner_fee": 24000,
+    "partner_pay": 24000,
+    "partner_request_fee": 2000,
+    "partner_subsidy": -1000,
+    "partner_surcharge": 1.1,
+    "payment_method": "BALANCE",
+    "pending_period": 100,
+    "pickup_lat": 10.769605049739877,
+    "pickup_lng": 106.66373592533743,
+    "pickup_time": 1724297923.8000236,
+    "polylines": "knv`Auv_jSn@pBE@uAh@y@X{Ah@_A\\[LQFe@PmBt@J^L\\JZ^fAeAtAk@|@g@k@",
+    "rating_by_supplier": 5,
+    "request_fee": 1000,
+    "requests": [],
+    "service_id": "SGN-BIKE",
+    "status": "COMPLETED",
+    "stop_fee": 0,
+    "sub_status": "BOARDED",
+    "supplier_bonus_account": 0,
+    "supplier_bonus_account_liability_to_ahamove": 0,
+    "supplier_id": "84384530913",
+    "supplier_imei": "D15A80FD-2635-4281-AC47-64CA94C56249",
+    "supplier_main_account": 4515,
+    "supplier_main_account_liability_to_ahamove": 1704,
+    "supplier_name": "Cuong Test",
+    "supplier_avatar": "https://ahamove-document.s3.ap-southeast-1.amazonaws.com/staging/driver/avatar/ab419f18d33e2bc7eed52d769b9d0377/3d8bac59569cb826a47571eb031e678e_128.jpeg",
+    "surcharge": 1.1,
+    "surge_value": 2000,
+    "timeout": 1200,
+    "total_fee": 23000,
+    "total_pay": 0,
+    "user_bonus_account": 0,
+    "user_id": "84384530913",
+    "user_imei": "5366A312-B401-47E1-B2BF-0D58F43AA69C",
+    "user_main_account": 24000,
+    "user_name": "PHẠM NGUYỄN THANH NHI",
+    "vat_fee": 0,
+    "from_location": {
+        "type": "Point",
+        "coordinates": [
+            106.663709770634,
+            10.769627121721582
+        ]
+    },
+    "cod_commission_fee": 1000,
+    "item_fee": 0,
+    "item_discount": 0,
+    "item_vat_fee": 0,
+    "is_insured": true,
+    "premium_service_fee": 0,
+    "reward": {
+        "point": 20.399999618530273
+    },
+    "weight_fee": 0,
+    "order_instructions": [
+        {
+            "description": "Giao hàng default POP",
+            "img_url": "Image default POP",
+            "title": "Title default POP",
+            "type": "proof_of_pickup"
+        },
+        {
+            "description": "Giao hàng default POD",
+            "img_url": "Image default POD",
+            "title": "Title default POD",
+            "type": "proof_of_delivery"
+        }
+    ],
+    "tracking_code": "240822NX4TDC",
+    "service": {
+        "_id": "SGN-BIKE",
+        "city_id": "SGN",
+        "delivery_type": "INSTANT",
+        "enable": true,
+        "icon_url": "https://ahamoveimg.s3-ap-southeast-1.amazonaws.com/aha-service/SieuToc.jpg",
+        "map_icon_url": "https://ahamove.com/wp-content/uploads/2020/01/icon-tet.png",
+        "name": "Siêu Tốc",
+        "name_en_us": "Siêu Tốc",
+        "name_vi_vn": "Siêu Tốc",
+        "parent_id": "SGN-GROUP-BIKE_EXPRESS",
+        "require_to": true,
+        "uniform_verify": true,
+        "uniform_verify_message_en_us": "Is your driver wearing proper uniform (including AhaMove's jacket, helmet)?",
+        "uniform_verify_message_vi_vn": "Tài xế có mang đồng phục (áo, nón) hay không?",
+        "map_icon_3d": {
+            "url": "https://ahamoveimg.s3-ap-southeast-1.amazonaws.com/aha-vehicle/Icon_3D_BIKE.png",
+            "sprite_size": 128,
+            "sprite_count": 64
+        },
+        "group_name_en_us": "Fast delivery"
+    },
+    "supplier_num_rating": 1,
+    "supplier_plate_number": "H6H6 - 31091",
+    "supplier_rating": 5,
+    "plate_number": "H6H6 - 31091",
+    "vehicle_type": "TRICYCLE",
+    "vehicle_color": "đen",
+    "supplier_distance_price": 20370,
+    "supplier_special_request_price": 926,
+    "supplier_stoppoint_price": 0,
+    "supplier_subtotal_price": 21296,
+    "collect_cash_for_aha": 1704,
+    "supplier_total_price": 23000,
+    "liability": -1704,
+    "commission_fee": -4515,
+    "pay_by_cash": 0,
+    "pay_by_balance": 16781,
+    "surge_rate": 1.1,
+    "path": [
+        {
+            "address": "7/28 Thành Thái, Phường 12, Quận 10, Hồ Chí Minh 76000, Việt Nam",
+            "lat": 10.769627121721582,
+            "lng": 106.663709770634,
+            "cod": 0,
+            "adr_source": "google",
+            "short_address": "7/28 Thành Thái",
+            "mobile": "",
+            "arrival_lat": 10.76962170309624,
+            "arrival_lng": 106.66368211793198,
+            "arrival_time": 1724297905,
+            "name": "",
+            "require_pop": true,
+            "pop_type": "photo",
+            "pop_info": "https://ahamove-assets-staging.s3.ap-southeast-1.amazonaws.com/order_proof/2024/8/22/order_proof-ab419f18d33e2bc7eed52d769b9d0377-lEIa7cZs0S.jpg",
+            "limit_call": true,
+            "instruction_indexes": [
+                0
+            ],
+            "cash_payment": 0,
+            "supplier_cod": -10000
+        },
+        {
+            "address": "Trường Đại Học Bách Khoa,  Cổng,  Đường Tô Hiến Thành,  Phường 14,  Quận 10,  Hồ Chí Minh",
+            "lat": 10.772536,
+            "lng": 106.66052,
+            "cod": 10000,
+            "adr_source": "pes_47a121c60acbd7df1cc64e0baa0917ad",
+            "short_address": "Trường Đại Học Bách Khoa",
+            "formatted_address": "Trường Đại Học Bách Khoa, Cổng, Đường Tô Hiến Thành, Phường 14, Quận 10, Hồ Chí Minh, Việt Nam",
+            "mobile": "",
+            "status": "COMPLETED",
+            "complete_lat": 10.76965756511251,
+            "complete_lng": 106.66371764420336,
+            "complete_time": 1724297938.2286456,
+            "name": "",
+            "require_pod": true,
+            "pod_type": "photo",
+            "pod_info": "https://ahamove-assets-staging.s3.ap-southeast-1.amazonaws.com/order_proof/2024/8/22/order_proof-ab419f18d33e2bc7eed52d769b9d0377-eOUPcAf18J.jpg",
+            "require_pof": true,
+            "pof_type": "photo",
+            "enable_upload_pof": true,
+            "item_description": "bánh cuốn",
+            "item_value": 10000,
+            "pod_types": [
+                "photo"
+            ],
+            "proof_of_delivery": {
+                "photo": [
+                    "https://ahamove-assets-staging.s3.ap-southeast-1.amazonaws.com/order_proof/2024/8/22/order_proof-ab419f18d33e2bc7eed52d769b9d0377-eOUPcAf18J.jpg"
+                ]
+            },
+            "instruction_indexes": [
+                1
+            ],
+            "item_descriptions": [
+                {
+                    "code": "28",
+                    "keyword": "bánh cuốn",
+                    "group": "food"
+                }
+            ],
+            "cash_payment": 0,
+            "supplier_cod": 10000
+        }
+    ],
+    "user_rating": 5,
+    "user_num_rating": 3,
+    "fee_discrepancy": -1000,
+    "supplier_price_details": {
+        "pay_by_cash": 0,
+        "pay_by_balance": 16781,
+        "actual_received_amount": 16781,
+        "subtotal_prices": 23000,
+        "total_prices": 23000,
+        "details": [
+            {
+                "group_name": "Giá cước",
+                "total_fee": 23000,
+                "payment_method": {
+                    "name": "Tài khoản chính",
+                    "code": "BALANCE"
+                },
+                "fee_breakdown": [
+                    {
+                        "name": "Giá cước theo khoảng cách",
+                        "value": 22000
+                    },
+                    {
+                        "name": "Phí dịch vụ kèm theo",
+                        "value": 1000
+                    }
+                ]
+            },
+            {
+                "group_name": "Các khoản thu hộ",
+                "total_fee": -1704,
+                "payment_method": {
+                    "name": "Tài khoản chính",
+                    "code": "BALANCE"
+                },
+                "fee_breakdown": [
+                    {
+                        "name": "VAT đơn hàng",
+                        "value": -1704
+                    }
+                ]
+            },
+            {
+                "group_name": "Thuế TNCN & Chiết khấu",
+                "total_fee": -4515,
+                "payment_method": {
+                    "name": "Tài khoản chính",
+                    "code": "BALANCE"
+                },
+                "fee_breakdown": [
+                    {
+                        "name": "Thuế TNCN & Chiết khấu đơn hàng",
+                        "value": -4515
+                    }
+                ]
+            }
+        ]
+    }
+}
