@@ -15,7 +15,7 @@ abstract class ApiService {
   Future<OrderSeverDrivenUIModel> getSeverDrivenUI(
       @Path("id") String orderID, @Header('Authorization') String header);
 
-  @GET("/api/v3/private/order/detail/{id}")
+  @GET("/api/v3/saas/order/detail/{id}")
   Future<OrderDetailModel> getOrderDetail(
       @Path("id") String orderID, @Header('Authorization') String header);
 
