@@ -1,18 +1,12 @@
-import 'package:json_annotation/json_annotation.dart';
-import 'package:test_flutter_build/src/data/model/response/request/request_model.dart';
 import 'package:test_flutter_build/src/data/model/response/route_path_model.dart';
 import 'package:test_flutter_build/src/data/model/response/service/service_model.dart';
 
-part 'order_detail_model.g.dart';
-
-@JsonSerializable(fieldRename: FieldRename.snake)
 class OrderDetailModel {
-  @JsonKey(name: "_id")
   String id;
   String status;
   String serviceId;
-  String? orderType;
-  int? supplierStopPointPrice;
+  String orderType;
+  int? supplierStoppointPrice;
   int? supplierSubtotalPrice;
   int? supplierDistancePrice;
   int? supplierTotalPrice;
@@ -26,13 +20,6 @@ class OrderDetailModel {
   ServiceModel service;
   num distance;
   List<RoutePathModel> path;
-  List<RequestModel> requests;
-  String? userName;
-  int? ratingBySupplier;
-  String? userFacebookId;
-  String? polylines;
-  String? codPaymentMethod;
-  int? userRating;
 
   OrderDetailModel({
     required this.id,
@@ -41,7 +28,7 @@ class OrderDetailModel {
     required this.service,
     required this.serviceId,
     required this.orderType,
-    required this.supplierStopPointPrice,
+    required this.supplierStoppointPrice,
     required this.supplierSubtotalPrice,
     required this.supplierDistancePrice,
     required this.supplierTotalPrice,
@@ -53,86 +40,81 @@ class OrderDetailModel {
     required this.payByBalance,
     required this.distance,
     required this.path,
-    required this.requests,
-    this.userName,
-    this.ratingBySupplier,
-    this.userFacebookId,
-    required this.polylines,
-    this.codPaymentMethod,
-    this.userRating,
   });
 
   bool get isRentOrder {
-    return orderType == "rent" ||
-        serviceId.contains("rent") ||
-        (service.isRentService ?? false);
+    return orderType == "rent" || 
+           serviceId.contains("rent") || 
+           (service.isRentService ?? false);
   }
 
   bool get isRideOrder {
-    return orderType == "ride-hailing" ||
-        serviceId.contains("RIDE") ||
-        (service.isRideService ?? false);
-  }
-
-  bool get isCompleted {
-    return status == OrderStatus.completed.value;
-  }
-
-  bool get isAssigning {
-    return status == OrderStatus.assigning.value;
-  }
-
-  bool get isAccepted {
-    return status == OrderStatus.accepted.value;
-  }
-
-  bool get isInProcess {
-    return status == OrderStatus.processing.value;
-  }
-
-  bool get isCancelled {
-    return status == OrderStatus.cancel.value;
-  }
-
-  bool get isFail {
-    return status == OrderStatus.fail.value;
-  }
-
-  bool get isCompletedAllPath {
-    return path.every((path) => path.status == OrderStatus.completed.value);
-  }
-
-  int numberOfPath() {
-    return path.length;
-  }
-
-  RoutePathModel getRoutePath(int index) {
-    return path[index];
+    return orderType == "ride-hailing" || 
+           serviceId.contains("RIDE") || 
+           (service.isRideService ?? false);
   }
 
   factory OrderDetailModel.fromJson(Map<String, dynamic> json) =>
-      _$OrderDetailModelFromJson(json);
+      OrderDetailModel(
+        id: json["_id"],
+        status: json["status"] ?? "",
+        serviceId: json["service_id"] ?? "",
+        orderType: json["order_type"] ?? "",
+        supplierSubtotalPrice: json["supplier_subtotal_price"] ?? 0,
+        supplierStoppointPrice: json["supplier_stoppoint_price"] ?? 0,
+        supplierDistancePrice: json["supplier_distance_price"] ?? 0,
+        supplierSpecialRequestPrice: json["supplier_special_request_price"] ?? 0,
+        supplierTotalPrice: json["supplier_total_price"] ?? 0,
+        collectCashForAha: json["collect_cash_for_aha"] ?? 0,
+        liability: json["liability"] ?? 0,
+        commissionFee: json["commission_fee"] ?? 0,
+        payByCash: json["pay_by_cash"] ?? 0,
+        payByBalance: json["pay_by_balance"] ?? 0,
+        cityId: json["city_id"],
+        service: ServiceModel.fromJson(json["service"]),
+        distance: json["distance"] ?? 0,
+        path: (json["path"] as List)
+            .map((e) => RoutePathModel.fromJson(e))
+            .toList(),
+      );
 
-  Map<String, dynamic> toJson() => _$OrderDetailModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        "_id": id,
+        "status": status,
+        "service_id": serviceId,
+        "city_id": cityId,
+        "supplier_subtotal_price": supplierSubtotalPrice,
+        "supplier_distance_price": supplierDistancePrice,
+        "supplier_stoppoint_price": supplierStoppointPrice,
+        "supplier_total_price": supplierTotalPrice,
+        "supplier_special_request_price": supplierSpecialRequestPrice,
+        "collect_cash_for_aha": collectCashForAha,
+        "liability": liability,
+        "commission_fee": commissionFee,
+        "pay_by_cash": payByCash,
+        "pay_by_balance": payByBalance,
+        "service": service,
+        "distance": distance,
+        "path": path,
+      };
 }
 
 enum OrderStatus {
+  cancel("CANCELLED"),
   assigning("ASSIGNING"),
-  accepted("ACCEPTED"),
-  processing("IN PROCESS"),
   completed("COMPLETED"),
-  cancel("CANCEL"),
-  fail("FAIL"),
-  ide("IDLE"),
+  processing("IN PROCESS"),
+  accepted("ACCEPTED"),
+  fail("FAILED"),
+  confirming("CONFIRMING"),
+  paying("PAYING"),
+  idle("IDLE"),
   ;
-
   final String value;
-
   const OrderStatus(this.value);
 
   static OrderStatus of(String value) {
-    final status = OrderStatus.values
-        .firstWhere((element) => element.value.toUpperCase() == value);
+    final status = OrderStatus.values.firstWhere((element) => element.value.toUpperCase() == value);
     return status;
   }
 
@@ -149,7 +131,7 @@ enum OrderStatus {
       case OrderStatus.processing:
         return "Đang thực hiện";
       default:
-        return "";
+        return "Đã hoàn thành";
     }
   }
 }

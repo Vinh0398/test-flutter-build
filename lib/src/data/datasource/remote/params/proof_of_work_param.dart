@@ -1,12 +1,4 @@
-enum ReasonType {
-  por("por"),
-  poc("poc"),
-  rating("rating"),
-  pof("pof"),
-  ;
-  final String value;
-  const ReasonType(this.value);
-}
+enum ReasonType { por, poc, rating, pof }
 
 class ProofOfWorkParams {
   final ReasonType reasonType;

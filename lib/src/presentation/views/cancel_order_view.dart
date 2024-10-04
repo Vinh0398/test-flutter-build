@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_flutter_build/src/data/datasource/remote/params/proof_of_work_param.dart';
 import 'package:test_flutter_build/src/utils/platform_channel.dart';
 import 'package:provider/provider.dart';
 import '../../core/colors.dart';
@@ -11,10 +10,8 @@ import 'widgets/commons/bottom_button_widget.dart';
 
 class CancelOrderView extends StatefulWidget {
   final String orderId;
-  bool isFailOrder;
-  Function(String)? handleFailReason;
 
-  CancelOrderView({required this.orderId, required this.isFailOrder, this.handleFailReason});
+  CancelOrderView({required this.orderId});
   @override
   _CancelOrderViewState createState() => _CancelOrderViewState();
 }
@@ -35,7 +32,7 @@ class _CancelOrderViewState extends State<CancelOrderView> {
       cancelOrderUseCase: context.read(),
     );
 
-    _proofOfWorkController.getProofOfWork(reasonType: widget.isFailOrder ? ReasonType.pof : ReasonType.poc);
+    _proofOfWorkController.getProofOfWork();
     super.initState();
   }
 
@@ -43,7 +40,7 @@ class _CancelOrderViewState extends State<CancelOrderView> {
     return RadioListTile<String>(
       title: Text(reason.titleVi ?? ''),
       value: reason.id ?? '',
-      groupValue: selectedReason,
+      groupValue: selectedReasonId,
       onChanged: (value) {
         setState(() {
           selectedReasonId = value;
@@ -123,24 +120,18 @@ class _CancelOrderViewState extends State<CancelOrderView> {
                               color: Colors.white),
                           onTap: () {
                             if (selectedReason != null) {
-                              if (widget.isFailOrder == true) {
-                                widget.handleFailReason!(selectedReason!);
-                                Navigator.pop(context);
-                              } else {
-                                context.read<ProofOfWorkController>().cancelOrder(
-                                  widget.orderId,
-                                  selectedReason!,
-                                ).then((_) {
-                                  // Handle successful cancellation
-                                  PlatformChannelMethod.dismissView(
-                                      orderId: widget.orderId);
-                                }).catchError((error) {
-                                  // Handle error
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('Failed to cancel order: $error')),
-                                  );
-                                });
-                              }
+                              context.read<ProofOfWorkController>().cancelOrder(
+                                widget.orderId,
+                                selectedReason!,
+                              ).then((_) {
+                                // Handle successful cancellation
+                                PlatFormChannel.dismissView(orderId: widget.orderId);
+                              }).catchError((error) {
+                                // Handle error
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Failed to cancel order: $error')),
+                                );
+                              });
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('Please select a reason for cancellation')),

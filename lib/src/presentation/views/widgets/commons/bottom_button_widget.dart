@@ -14,10 +14,10 @@ class BottomButtonWidget extends StatelessWidget {
     required this.widgetHeight,
     required this.buttonHeight,
     required this.buttonPadding,
+    required this.buttonTitle,
     this.onTap,
     required this.buttonColor,
     required this.buttonTitleStyle,
-    required this.buttonTitle,
   });
 
   @override

@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class TextsUtils {
+class CurrencyFormatter {
   static String moneyString(int number, String currency, {String? locale}) {
     final formatter = NumberFormat.currency(
       locale: locale ?? 'en_US',
@@ -20,12 +20,5 @@ class TextsUtils {
       final absNumber = number.abs().toStringAsFixed(2);
       return number >= 0 ? '$symbol$absNumber' : '- $symbol$absNumber';
     }
-  }
-
-  static bool containString(String parentString, String subString) {
-    final searchString = parentString.toLowerCase().replaceAll("đ", "d");
-    final scanString = subString.toLowerCase().replaceAll("đ", "d");
-
-    return searchString.contains(scanString);
   }
 }

@@ -61,7 +61,7 @@ class LeftRightTextWidget extends StatelessWidget {
   }
 
   Widget imageWidget(String? image) {
-    if (image != null && image != "") {
+    if (image != null) {
       if (image.contains("https:")) {
         return SizedBox(
           height: 24,

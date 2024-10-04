@@ -38,12 +38,12 @@ class ProofOfWorkController extends Cubit<ProofOfWorkState> {
     required this.cancelOrderUseCase,
   }) : super(ProofOfWorkState());
 
-  Future<void> getProofOfWork({required ReasonType reasonType}) async {
+  Future<void> getProofOfWork() async {
     emit(state.copyWith(isLoading: true));
     try {
       final result = await getProofOfWorkUseCase.invoke(
         param: ProofOfWorkParams(
-          reasonType: reasonType,
+          reasonType: ReasonType.poc,
           userType: "supplier",
           appType: "onwheel"
         )

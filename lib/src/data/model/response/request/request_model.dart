@@ -1,10 +1,7 @@
-import 'package:json_annotation/json_annotation.dart';
+
 import 'package:test_flutter_build/src/data/model/entity/request_entity/option_entity.dart';
 import 'package:test_flutter_build/src/data/model/entity/request_entity/tier_entity.dart';
 
-part 'request_model.g.dart';
-
-@JsonSerializable(fieldRename: FieldRename.snake)
 class RequestModel {
   bool enable;
   bool isEnableDefault;
@@ -12,14 +9,13 @@ class RequestModel {
   String? nameViVn;
   String? nameEnUs;
   String? iconUrl;
-  double? price;
+  num? price;
   String? serviceId;
-  @JsonKey(name: "_id")
   String? id;
   String? type;
-  int? order;
-  int? maxInput;
-  int? minInput;
+  num? order;
+  num? maxInput;
+  num? minInput;
   bool deliveryOption;
   String? descriptionUrl;
   String? supplierDescriptionViVn;
@@ -27,11 +23,11 @@ class RequestModel {
   String? supplierDescription;
   String? supplierDescriptionUrl;
   String? imgUrl;
-  double? itemPrice;
-  double? originalPrice;
-  int? numberOfRequest;
-  double? moneySupport;
-  int? pathIndex;
+  num? itemPrice;
+  num? originalPrice;
+  num? numberOfRequest;
+  num? moneySupport;
+  num? pathIndex;
   List<TierEntity>? tierList;
   List<OptionEntity>? options;
   String? tierCode;
@@ -70,9 +66,4 @@ class RequestModel {
     this.tierCode,
     this.tierList,
   });
-
-  factory RequestModel.fromJson(Map<String, dynamic> json) =>
-      _$RequestModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RequestModelToJson(this);
 }

@@ -85,8 +85,6 @@ const primary50 = Color(0xFFFE5F00);
 const gray30 = Color(0xFFC1C7CD);
 const inactiveSlider = Color(0xFFD0D0D0);
 const bottomLineNav = Color(0xFFE8EDF1);
-const polyline = Color(0xFF0087e3);
-//0087e3
 const auraBorderColor = LinearGradient(
   colors: [
     Color(0xFF78CAC0),
@@ -106,8 +104,5 @@ const auraBackgroundColor = LinearGradient(
 const auraTextGradient1 = Color(0xFF54EFD2);
 const auraTextGradient2 = Color(0xFFC7C2F8);
 const auraLinkColor = Color(0xFF97FFF3);
-const navBarColor = Color(0xFF007CFF);
-const warmGrey = Color(0xFF969696);
-const redCash = Color(0xFFE8313B);
 
 

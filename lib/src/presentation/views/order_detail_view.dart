@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,36 +9,26 @@ import 'package:test_flutter_build/src/data/model/entity/order_sever_driven_ui_e
 import 'package:test_flutter_build/src/data/model/entity/order_sever_driven_ui_entity/section_entity/sections_entity.dart';
 import 'package:test_flutter_build/src/data/model/response/order_detail/order_detail_model.dart';
 import 'package:test_flutter_build/src/data/model/response/order_sever_driven_ui/oder_sever_driven_ui_model.dart';
-import 'package:test_flutter_build/src/presentation/controller/order_detail_controller.dart';
 import 'package:test_flutter_build/src/presentation/controller/order_sever_driven_controller.dart';
 import 'package:test_flutter_build/src/presentation/views/cancel_order_view.dart';
-import 'package:test_flutter_build/src/presentation/views/route_detail_view.dart';
 import 'package:test_flutter_build/src/presentation/views/widgets/commons/bottom_button_widget.dart';
 import 'package:test_flutter_build/src/presentation/views/widgets/commons/divider_widget.dart';
-import 'package:test_flutter_build/src/presentation/views/widgets/commons/image_right_text_widget.dart';
 import 'package:test_flutter_build/src/presentation/views/widgets/commons/left_right_text_widget.dart';
 import 'package:test_flutter_build/src/presentation/views/widgets/commons/text_widget.dart';
-import 'package:test_flutter_build/src/presentation/views/widgets/order_detail_widget/header_route_widget.dart';
-import 'package:test_flutter_build/src/presentation/views/widgets/order_detail_widget/rating_widget.dart';
-import 'package:test_flutter_build/src/presentation/views/widgets/order_detail_widget/route_path_widget.dart';
-import 'package:test_flutter_build/src/routes/route.dart';
+import 'package:test_flutter_build/src/presentation/views/widgets/header_route_widget.dart';
+import 'package:test_flutter_build/src/presentation/views/widgets/route_path_widget.dart';
 import 'package:test_flutter_build/src/utils/extension/number_format.dart';
 import 'package:test_flutter_build/src/utils/layout_sections_config.dart';
 import 'package:test_flutter_build/src/utils/native_channel.dart';
 import 'package:test_flutter_build/src/utils/platform_channel.dart';
 import 'package:test_flutter_build/src/utils/remote_config_utils.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../data/datasource/remote/params/accept_order_param.dart';
 import '../../data/model/entity/order_sever_driven_ui_entity/section_entity/action_data_entity.dart';
-import '../../utils/dialog_utils.dart';
-import 'widgets/order_detail_widget/billing_details_widget.dart';
+import 'widgets/billing_details_widget.dart';
 import 'widgets/commons/header_section_widget.dart';
 import 'widgets/commons/order_row_widget.dart';
-import 'widgets/commons/search_tracking_number_widget.dart';
 
 class OrderDetailView extends StatefulWidget {
   const OrderDetailView({super.key});
@@ -51,7 +39,6 @@ class OrderDetailView extends StatefulWidget {
 
 class _OrderDetailViewState extends State<OrderDetailView> {
   late OrderSeverDrivenController _orderSeverDrivenController;
-  late OrderDetailController _orderDetailController;
   late LayoutModel _layoutConfig;
   OrderDetailModel? order;
   String? orderId;
@@ -73,13 +60,11 @@ class _OrderDetailViewState extends State<OrderDetailView> {
 
   @override
   void initState() {
+    getOrderIdFromNative();
     _orderSeverDrivenController = OrderSeverDrivenController(
       orderSeverDrivenUIUseCase: context.read(),
       getOrderDetailUseCase: context.read(),
     );
-    _orderDetailController =
-        OrderDetailController(acceptOrderUseCase: context.read());
-    getOrderIdFromNative();
     _orderSeverDrivenController.getOrderDrivenUI();
     _layoutConfig = RemoteConfigUtils.getLayoutSections();
     super.initState();
@@ -104,7 +89,6 @@ class _OrderDetailViewState extends State<OrderDetailView> {
         builder: (BuildContext context, state) {
           if (state.drivenUI != null && state.orderDetail != null) {
             order = state.orderDetail!;
-            _orderDetailController.updateOrderDetail(order);
             SectionsEntity? appbarData;
             SectionsEntity? bottomData;
             if (header.sectionIds.contains("navigation_section")) {
@@ -122,10 +106,9 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                       leading: IconButton(
                         icon: const Icon(Icons.arrow_back_ios,
                             color: Colors.white),
-                        onPressed: () => PlatformChannelMethod.dismissView(
-                            orderId: state.orderDetail!.id),
+                        onPressed: () => PlatFormChannel.dismissView(orderId: state.orderDetail!.id),
                       ),
-                      backgroundColor: navBarColor,
+                      backgroundColor: const Color(0xFF142246),
                       title: Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,77 +130,49 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                       centerTitle: false,
                       actions: [
                         IconButton(
-                          icon: const Icon(Icons.search, color: white),
-                          onPressed: () {
-                            // Implement search functionality
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (BuildContext context) {
-                                return SearchTrackingNumberWidget(order: order);
-                              },
-                            );
-                          },
-                        ),
-                        IconButton(
                           icon: const Icon(Icons.more_vert, color: white),
                           onPressed: () {
                             showCupertinoModalPopup<void>(
                               context: context,
                               builder: (BuildContext context) =>
                                   CupertinoActionSheet(
-                                actions: <CupertinoActionSheetAction>[
-                                  CupertinoActionSheetAction(
-                                    child: const Text('Báo cáo đơn hàng này',
-                                        style: TextStyle(
-                                            color: CupertinoColors.activeBlue)),
-                                    onPressed: () {
-                                      PlatformChannelMethod.openReportView(
-                                          order);
-                                    },
-                                  ),
-                                  CupertinoActionSheetAction(
-                                    child: const Text('Gọi hỗ trợ khách hàng',
-                                        style: TextStyle(
-                                            color: CupertinoColors.activeBlue)),
-                                    onPressed: () {
-                                      _makePhoneCall('1900636636');
-                                    },
-                                  ),
-                                  CupertinoActionSheetAction(
-                                    child: const Text('Huỷ đơn hàng',
-                                        style: TextStyle(
-                                            color: CupertinoColors.activeBlue)),
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        builder: (BuildContext context) {
-                                          return Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.9,
-                                            child: CancelOrderView(
-                                              orderId: order?.id ?? '',
-                                              isFailOrder: false,
-                                            ),
+                                    actions: <CupertinoActionSheetAction>[
+                                      CupertinoActionSheetAction(
+                                        child: const Text('Gọi hỗ trợ khách hàng',
+                                            style: TextStyle(
+                                                color: CupertinoColors.activeBlue)),
+                                        onPressed: () {
+                                          _makePhoneCall('1900636636');
+                                        },
+                                      ),
+                                      CupertinoActionSheetAction(
+                                        child: const Text('Huỷ đơn hàng',
+                                            style: TextStyle(
+                                                color: CupertinoColors.activeBlue)),
+                                        onPressed: () {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true,
+                                            builder: (BuildContext context) {
+                                              return Container(
+                                                height: MediaQuery.of(context).size.height * 0.9,
+                                                child: CancelOrderView(orderId: order?.id ?? '',),
+                                              );
+                                            },
                                           );
                                         },
-                                      );
-                                    },
-                                  ),
-                                ],
-                                cancelButton: CupertinoActionSheetAction(
-                                  child: const Text('Huỷ',
-                                      style: TextStyle(
-                                          color:
+                                      ),
+                                    ],
+                                    cancelButton: CupertinoActionSheetAction(
+                                      child: const Text('Huỷ',
+                                          style: TextStyle(
+                                              color:
                                               CupertinoColors.destructiveRed)),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ),
                             );
                           },
                         ),
@@ -225,57 +180,36 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                     ),
               body: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                child: bodyViewWidget(bodySection: body.sectionIds),
+                child: bodyViewWidget(
+                    bodySection: body.sectionIds, data: state.drivenUI!),
               ),
-              bottomNavigationBar:
-                  order?.status == OrderStatus.completed.value ||
-                          order?.status == OrderStatus.fail.value
-                      ? SizedBox()
-                      : SafeArea(
-                          child: BottomButtonWidget(
-                              widgetHeight: 80,
-                              buttonHeight: 70,
-                              buttonPadding: const EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 12),
-                              buttonTitle: getBottomButtonString(),
-                              buttonColor: primary50,
-                              buttonTitleStyle: AppStyles.styleButton2
-                                  .copyWith(color: Colors.white),
-                              onTap: () =>
-                                  // PlatformChannelMethod.navigateToRouteDetail(
-                                  //     order: state.orderDetail!),
-                                  // handleNavigateRouteDetail()
-                                  _processOrder()),
-                        ),
+              bottomNavigationBar: bottomData == null
+                  ? Container()
+                  : SafeArea(
+                      child: BottomButtonWidget(
+                          widgetHeight: 80,
+                          buttonHeight: 70,
+                          buttonPadding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 12),
+                          buttonTitle: bottomData.data?.first.value ?? "",
+                          buttonColor: primary50,
+                          buttonTitleStyle: handleGetTextStyle(bottomData
+                                      .data?.first.styles
+                                      ?.firstWhere(
+                                          (element) => element.Key == "style")
+                                      .Value ??
+                                  "")
+                              .copyWith(color: Colors.white), onTap: () => PlatFormChannel.navigateToRouteDetail(order: state.orderDetail!),),
+                    ),
             );
           } else {
-            return const SizedBox(
-                child: Center(child: CircularProgressIndicator()));
+            return const SizedBox(child: Center(child: CircularProgressIndicator()));
           }
-        },
-        buildWhen: (previous, current) {
+        },buildWhen: (previous, current) {
           return (previous.orderDetail != current.orderDetail);
-        },
+      },
       ),
     );
-  }
-
-  Future _processOrder() async {
-    if (order?.isAssigning == true) {
-      DialogUtils.showPrimaryDialog(
-          context: context,
-          title: "Bạn đã sẵn sàng chấp nhận đơn hàng này?",
-          content:
-              "Bạn nên liên hệ với khách hàng sau khi chấp nhận đơn hàng này ngay lập tức",
-          positiveTitle: "Xác nhận",
-          onPositiveTap: () {
-            _orderDetailController.processOrder();
-          },
-          negativeTitle: "Hủy",
-          onNegativeTap: () {});
-    } else {
-      handleNavigateRouteDetail();
-    }
   }
 
   SectionsEntity? getHeaderSectionData(
@@ -292,40 +226,36 @@ class _OrderDetailViewState extends State<OrderDetailView> {
     return footerSectionData;
   }
 
-  Widget bodyViewWidget({required List<String> bodySection}) {
-    if (bodySection.isNotEmpty) {
+  Widget bodyViewWidget(
+      {required List<String> bodySection,
+      required OrderSeverDrivenUIModel data}) {
+    List<SectionsEntity> filterBodySections = [];
+    for (String section in bodySection) {
+      final item = data.sections?.firstWhere(
+          (e) => e.id?.contains(section) == true,
+          orElse: () => SectionsEntity());
+      if (item?.id != null) {
+        filterBodySections.add(item!);
+      }
+    }
+    if (filterBodySections.isNotEmpty) {
       return ListView.builder(
-          itemCount: bodySection.length,
+          itemCount: filterBodySections.length,
           itemBuilder: (context, index) {
-            final itemData = bodySection[index];
-            if (itemData.contains("rating") == true &&
-                _orderDetailController.shouldShowRating()) {
-              String imageUrl = "";
-              if (order?.userFacebookId != null) {
-                imageUrl =
-                    "https://graph.facebook.com/${order?.userFacebookId}/picture?type=large";
-              }
-              // return Container();
-              return RatingWidget(
-                userName: order?.userName ?? "",
-                starRated: 0,
-                nameStyle: AppStyles.styleH6,
-                avatarUrl: imageUrl,
-              );
+            final itemData = filterBodySections[index];
+            if (itemData.id == "cash_section") {
+              return cashSectionWidget(data: itemData.data);
             }
-            if (itemData == "cash_section") {
-              return cashSectionWidget();
+            if (itemData.id == "fee_order_section") {
+              return leftRightSection(data: itemData.data);
             }
-            if (itemData == "fee_order_section") {
-              return totalFeeOrderSection();
+            if (itemData.id == "total_cod_section") {
+              return leftRightSection(data: itemData.data);
             }
-            if (itemData == "total_cod_section") {
-              return totalCodSection();
+            if (itemData.id == "pricing_details_section") {
+              return pricingDetailSection(action: itemData.action);
             }
-            if (itemData == "pricing_details_section") {
-              return pricingDetailSection();
-            }
-            if (itemData.contains("divider_section") == true) {
+            if (itemData.id?.contains("divider_section") == true) {
               return const DividerWidget(
                 height: 2,
                 color: gray3,
@@ -333,17 +263,14 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                 verticalPadding: 4,
               );
             }
-            if (itemData == "service_section") {
+            if (itemData.id == "service_section") {
               return serviceSection();
             }
-            if (itemData == "route_header_section") {
+            if (itemData.id == "route_header_section") {
               return routeHeaderSection();
             }
-            if (itemData.contains("path") == true) {
+            if (itemData.id?.contains("path") == true) {
               return routePathSection();
-            }
-            if (itemData.contains("request") == true) {
-              return requestSection();
             }
             return Container();
           });
@@ -352,7 +279,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
     }
   }
 
-  Widget cashSectionWidget() {
+  Widget cashSectionWidget({List<SectionDataEntity>? data}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -372,20 +299,51 @@ class _OrderDetailViewState extends State<OrderDetailView> {
     );
   }
 
-  Widget totalFeeOrderSection() {
+  Widget leftRightSection(
+      {List<SectionDataEntity>? data, ActionDataEntity? action}) {
+    final image = data
+        ?.firstWhere((e) => e.type == "image" || e.type == "icon",
+            orElse: () => SectionDataEntity())
+        .value;
     String leftText;
     String? rightText;
-    leftText = "Cước phí đơn hàng";
-    final totalFee = order?.supplierSubtotalPrice ?? 0;
-    rightText = NumberUtils.formatCurrency(totalFee, "VND");
-    return LeftRightTextWidget(
-      leftText: leftText,
-      leftStyle: AppStyles.styleBody3,
-      rightText: rightText,
-      rightStyle: AppStyles.styleH5,
-      widgetHeight: 30,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-    );
+    final listTextParam =
+        data?.where((e) => e.type?.contains("text") == true).toList();
+    if (listTextParam != null) {
+      if (listTextParam.length > 1) {
+        leftText = getOrderData(from: listTextParam.first.value ?? "");
+        rightText = getOrderData(from: listTextParam.last.value ?? "");
+      } else {
+        leftText = getOrderData(from: listTextParam.first.value ?? "");
+      }
+      return LeftRightTextWidget(
+        leftText: leftText,
+        leftStyle: handleGetTextStyle(data?.first.styles
+                ?.firstWhere((element) => element.Key == "style")
+                .Value ??
+            ""),
+        rightText: rightText,
+        rightStyle: handleGetTextStyle(data?.last.styles
+                ?.firstWhere((element) => element.Key == "style")
+                .Value ??
+            ""),
+        widgetHeight: 30,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        image: image,
+        onTap: () {
+          // if (action != null && action.type == "toast") {
+          //   showDialog(
+          //     context: context,
+          //     builder: (BuildContext context) {
+          //       return BillingDetailsWidget(order: order);
+          //     },
+          //   );
+          // }
+        },
+      );
+    } else {
+      return Container();
+    }
   }
 
   Widget routeHeaderSection() {
@@ -400,8 +358,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
         color: primary40,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      viewRouteTap: () async =>
-          await PlatformChannelMethod.openRouteView(order),
+      viewRouteTap: () async => await PlatFormChannel.openRouteView(order),
     );
   }
 
@@ -426,20 +383,61 @@ class _OrderDetailViewState extends State<OrderDetailView> {
             ),
             onPathTap: () {
               if (order != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => RouteDetailView(
-                            order: order,
-                            routeIndex: index,
-                          )),
-                );
-                // PlatformChannelMethod.navigateToRouteDetail(
-                // order: order!, routeIndex: index);
+                PlatFormChannel.navigateToRouteDetail(order: order!, routeIndex: index);
               }
             },
           );
         });
+  }
+
+  Widget orderRowSection(
+      {List<SectionDataEntity>? data, ActionDataEntity? action}) {
+    final iconValue = data
+        ?.firstWhere((e) => e.type == "icon", orElse: () => SectionDataEntity())
+        .value;
+    final headerValue = data?.firstWhere((e) => e.type == "header");
+    final headerStyle = handleGetTextStyle(headerValue?.styles
+            ?.firstWhere((element) => element.Key == "style")
+            .Value ??
+        "");
+    final titleValue = data?.firstWhere((e) => e.type == "title");
+    final titleStyle = handleGetTextStyle(titleValue?.styles
+            ?.firstWhere((element) => element.Key == "style")
+            .Value ??
+        "");
+    final descriptionValue = data?.firstWhere((e) => e.type == "description");
+    final descriptionStyle = handleGetTextStyle(descriptionValue?.styles
+            ?.firstWhere((element) => element.Key == "style")
+            .Value ??
+        "");
+    final headerData = getOrderData(from: headerValue?.value ?? "");
+
+    final iconPathType = PathIconCase.of(value: iconValue ?? "");
+    final iconPath = iconPathType.toIconPath();
+    return OrderRowWidget(
+      borderColor: Colors.black54,
+      leftIcon: iconPath,
+      headerText: headerData ?? "",
+      headerTextStyle: headerStyle,
+      titleText: titleValue?.value ?? "",
+      titleTextStyle: titleStyle,
+      subtitleText: descriptionValue?.value ?? "",
+      subtitleTextStyle: descriptionStyle,
+      padding: const EdgeInsets.only(
+        left: 16,
+        right: 16,
+        top: 12,
+      ),
+      onTap: () {
+        if (action != null && action.type == "toast") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(action.target ?? ""),
+            ),
+          );
+        }
+      },
+    );
   }
 
   Widget headerSection(
@@ -459,7 +457,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
     );
   }
 
-  Widget pricingDetailSection() {
+  Widget pricingDetailSection({ActionDataEntity? action}) {
     return LeftRightTextWidget(
       leftText: "Xem chi tiết giá",
       leftStyle: AppStyles.styleH3.copyWith(color: primary40),
@@ -467,38 +465,15 @@ class _OrderDetailViewState extends State<OrderDetailView> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       image: "res/images/arrow_orange_icon.png",
       onTap: () => {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return BillingDetailsWidget(order: order!);
+        if (order != null && action != null && action.type == "toast")
+          {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return BillingDetailsWidget(order: order!);
+              },
+            ),
           },
-        ),
-      },
-    );
-  }
-
-  Widget totalCodSection() {
-    String leftText;
-    String? rightText;
-    leftText = "Tổng COD cần ứng";
-    final cod = order?.path.first.cod?.abs() ?? 0;
-    rightText = NumberUtils.formatCurrency(cod, "VND");
-    return LeftRightTextWidget(
-      leftText: leftText,
-      leftStyle: AppStyles.styleBody3,
-      rightText: rightText,
-      rightStyle: AppStyles.styleH5,
-      widgetHeight: 30,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      onTap: () {
-        // if (action != null && action.type == "toast") {
-        //   showDialog(
-        //     context: context,
-        //     builder: (BuildContext context) {
-        //       return BillingDetailsWidget(order: order);
-        //     },
-        //   );
-        // }
       },
     );
   }
@@ -519,34 +494,27 @@ class _OrderDetailViewState extends State<OrderDetailView> {
     return AppTextStyle.of(value).getTextStyle();
   }
 
-  Widget requestSection() {
-    if (order?.requests.isNotEmpty == true) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ListView.builder(
-            itemCount: order?.requests.length,
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: false,
-            itemBuilder: (context, index) {
-              final data = order?.requests[index];
-              if (data != null) {
-                return ImageTextWidget(
-                  padding: const EdgeInsets.only(top: 8),
-                  widgetHeight: 30,
-                  iconUrl: data.imgUrl ?? "",
-                  leftText: data.nameViVn ?? "",
-                  rightText: NumberUtils.formatCurrency(data.price ?? 0, "VND"),
-                  leftTextStyle: AppStyles.styleH5.copyWith(color: gray90),
-                  rightTextStyle:
-                      AppStyles.styleH3.copyWith(color: neutralBlackColor),
-                );
-              } else {
-                return Container();
-              }
-            }),
-      );
-    } else {
-      return Container();
+  String getOrderData({required String from}) {
+    final splitText = from.split("\$");
+    final valueText = "\$${splitText.last}";
+    final value = parseOrderData(from: valueText) ?? "";
+    return splitText.first + value;
+  }
+
+  parseOrderData({required String from}) {
+    if (order != null) {
+      Map<String, dynamic> mapOrder = {
+        '\${order.id}': "#${order!.id}",
+        "\${order.path[0].address}": order!.path[0].address,
+        "\${order.path[1].address}": order!.path[1].address,
+        "\${order.service.id}": order!.service.id,
+        "\${order.path[0].status}": order!.path[0].status,
+        "\${order.path[1].status}": order!.path[1].status,
+        "\${order.service.icon_url}": order!.service.iconUrl,
+        "\${order.service.service_name}": order!.service.nameDefault,
+        '\${order.distance}': order!.distance.toString(),
+      };
+      return mapOrder[from];
     }
   }
 
@@ -558,44 +526,10 @@ class _OrderDetailViewState extends State<OrderDetailView> {
     await launchUrl(launchUri);
   }
 
-  Future<void> getOrderIdFromNative() async {
-    NativeChannel().getOrderIdFromNative(onReceived: (orderID) {
-    _orderSeverDrivenController.getOrderDetail(orderId: orderID);
+  Future<void> getOrderIdFromNative() async{
+    orderId = await NativeChannel().getOrderIdFromNative(onReceived: (orderId) {
+      _orderSeverDrivenController.getOrderDetail(orderId: orderId);
     });
-  }
-
-  void handleNavigateRouteDetail() {
-    int? routeIndex = 0;
-    if (order?.status == OrderStatus.accepted.value) {
-      routeIndex = 0;
-    } else {
-      routeIndex = order?.path.indexWhere((e) =>
-      e.status != OrderStatus.completed.value.toUpperCase() &&
-          e.status != OrderStatus.fail.value.toUpperCase());
-    }
-    final currentLocation =
-        GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
-    context.go("$currentLocation/${RoutePath.routeDetailPath}/$routeIndex",
-        extra: order);
-  }
-
-  String getBottomButtonString() {
-    final orderStatus = OrderStatus.of(order?.status ?? "");
-    print("orderStatus $orderStatus");
-    switch (orderStatus) {
-      case OrderStatus.assigning:
-        return "Chấp nhận";
-      case OrderStatus.accepted:
-        return "Tiếp theo";
-      case OrderStatus.processing:
-        return "Tiếp theo";
-      case OrderStatus.completed:
-        return "";
-      case OrderStatus.cancel:
-        return "Đến màn hình xác nhận trả hàng";
-      default:
-        return "Tiếp theo";
-    }
   }
 }
 
@@ -630,39 +564,5 @@ enum PathIconCase {
       default:
         return "res/images/order_dest_icon.png";
     }
-  }
-}
-
-class SearchTrackingNumberDelegate extends SearchDelegate {
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      ),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, null);
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return Container();
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return Container();
   }
 }
